@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Detail.init({
+    DetailId : {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     PackageId: DataTypes.INTEGER,
     OrderId: DataTypes.INTEGER,
     qty: DataTypes.INTEGER

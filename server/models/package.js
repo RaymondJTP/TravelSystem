@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Package.init({
+    PackageId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     Name: DataTypes.STRING,
     Description: DataTypes.STRING,
     Price: DataTypes.INTEGER,

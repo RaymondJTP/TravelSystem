@@ -2,6 +2,8 @@
 const {
   Model
 } = require('sequelize');
+
+const {hashPassword} = require('../middlewares/bcrypt')
 module.exports = (sequelize, DataTypes) => {
   class Customer extends Model {
     /**
@@ -14,14 +16,27 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Customer.init({
-    CustomerId: DataTypes.INTEGER,
+    CustomerId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     Name: DataTypes.STRING,
     Email: DataTypes.STRING,
     Phone: DataTypes.STRING,
-    Address: DataTypes.STRING
+    Address: DataTypes.STRING,
+    Password: DataTypes.STRING,
+    TypeUser : DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Customer',
+    tableName: "Customer",
+    hooks : {
+      beforeCreate : (user,options) => {
+        // console.log(user);
+        user.Password = hashPassword(user.Password)
+      }
+    }
   });
   return Customer;
 };
