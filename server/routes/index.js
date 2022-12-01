@@ -1,19 +1,18 @@
 const router = require('express').Router()
-// const routerProduct = require('./product')
+
 const authController = require('../controllers/authController')
-// const routerCategory = require('./category')
-// const routerUser = require('./userRoute')
+const travel = require('../controllers/travelAndOrder')
+const authentication = require('../middlewares/authentication')
 // const routerHistory = require('./historyroute')
 // const routerCustomer = require('./customer')
 
-router.use('/register', authController.register)
-router.use('/login', authController.login)
-// router.use(authentication)
+router.get('/package', travel.getPackage)
+router.post('/register', authController.register)
+router.post('/login', authController.login)
+router.use(authentication)
 
-
-// router.use('/categories', routerCategory)
-// router.use('/products', routerProduct)
-// router.use('/users', routerUser)
+router.post('/package', travel.postPackage)
+router.post('/order', travel.orderTravelPackage)
 // router.use('/histories', routerHistory)
 // router.use(errorHandler)
 
