@@ -29,7 +29,7 @@ class Controller{
 
     static async orderTravelPackage(req,res,next){
         try {
-            let OrderNumber = +req.body.OrderNumber
+            // let OrderNumber = +req.body.OrderNumber
             const CustomerId = +req.user.id
             const qty = +req.body.qty
             const PackageId = +req.body.PackageId
@@ -45,11 +45,18 @@ class Controller{
                     CustomerId
                 }
             })
-
-            function compareOrder(a, b) {
-                return b.OrderNumber - a.OrderNumber;
+            
+            let numberOfOrder
+            if(!orderCustomer.length){
+                numberOfOrder = 1
+            }else{
+                function compareOrder(a, b) {
+                    return b.OrderNumber - a.OrderNumber;
+                }
+                numberOfOrder = orderCustomer.sort(compareOrder)[0].OrderNumber + 1
             }
-            const numberOfOrder = orderCustomer.sort(compareOrder)[0].OrderNumber + 1
+
+
 
             if(!packageTravel){
                 throw {name : 'notfound', message: `Package travel dengan id ${PackageId} tidak ada`}
@@ -110,6 +117,42 @@ class Controller{
             })
 
             res.status(200).json(result)
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    static async deletePackage(req,res,next){
+        try {
+            const PackageId = req.params.id
+            const packageTravel = await Package.findByPk(PackageId)
+            if(!packageTravel){
+                throw {name : 'notfound', message : `Package travel dengan id ${PackageId} tidak ditemukan`}
+            }
+
+            const result = await Package.destroy({where:{PackageId}, returning : true})
+            if(!result){
+                throw {name : 'fail', message : `Gagal menghapus Package Travel Id ${PackageId}`}
+            }
+
+            res.status(200).json({result, message: "Delete Success"})
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    static async updatePackage(req,res,next){
+        try {
+            const {Name, Description, Image} = req.body
+            const Price = +req.body.Price
+            const PackageId = req.params.id
+            const packageTravel = await Package.findByPk(PackageId)
+            if(!packageTravel){
+                throw {name : 'notfound', message : `Package Travel dengan id ${PackageId} tidak ditemukan`}
+            }
+
+            const updatePackage = await Package.update({Name, Description, Image, Price},{where: {PackageId}, returning : true})
+            res.status(200).json(updatePackage[1][0])
         } catch (err) {
             console.log(err);
         }
