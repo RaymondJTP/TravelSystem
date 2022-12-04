@@ -11,7 +11,7 @@ const authentication = async(req,res,next) => {
 
         const tokenPayLoad = verifyToken(access_token)
 
-        const getUser = await User.findOne({where:{email:tokenPayLoad.email}})
+        const getUser = await Customer.findOne({where:{Email:tokenPayLoad.email}})
         
         if(!getUser){
             throw{name: 'Unauthorized'}

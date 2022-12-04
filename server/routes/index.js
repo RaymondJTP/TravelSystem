@@ -13,6 +13,7 @@ router.use(authentication)
 
 router.post('/package', travel.postPackage)
 router.post('/order', travel.orderTravelPackage)
+router.get('/history', travel.getOrderHistory)
 // router.use('/histories', routerHistory)
 // router.use(errorHandler)
 

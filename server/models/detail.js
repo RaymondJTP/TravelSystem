@@ -10,11 +10,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Detail.belongsTo(models.Package, {foreignKey : 'PackageId'})
+      Detail.belongsTo(models.Order, {foreignKey : 'OrderId'})
     }
   };
   Detail.init({
-    DetailId : {
+    DetaiId : {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
