@@ -19,7 +19,7 @@ router.get('/history', travel.getOrderHistory)
 
 //Special case superuser
 router.delete('/package/:id', authorization, travel.deletePackage)
-router.patch('/package/:id', authorization, travel.updatePackage)
+router.put('/package/:id', authorization, travel.updatePackage)
 
 router.use(errorHandler)
 
