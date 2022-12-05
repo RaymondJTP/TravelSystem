@@ -22,10 +22,26 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
     },
     Name: DataTypes.STRING,
-    Email: DataTypes.STRING,
+    Email: {
+      type : DataTypes.STRING,
+      allowNull : false,
+      unique:true,
+      validate: {
+        notNull : {msg : "Email cant be empty"},
+        notEmpty : {msg : "Email cant be empty"},
+        isEmail : {msg : "Email must be in email format"}
+      }
+    },
     Phone: DataTypes.STRING,
     Address: DataTypes.STRING,
-    Password: DataTypes.STRING,
+    Password: {
+      type : DataTypes.STRING,
+      allowNull : false,
+      validate: {
+        notNull : {msg : "Password cant be empty"},
+        notEmpty : {msg : "Password cant be empty"}
+      }
+    },
     TypeUser : DataTypes.INTEGER
   }, {
     sequelize,

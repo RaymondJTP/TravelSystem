@@ -6,7 +6,7 @@ const authentication = require('../middlewares/authentication')
 const authorization = require('../middlewares/authorization')
 const multerUpload = require('../middlewares/multer')
 const uploadImage = require('../middlewares/imageKitUpload')
-// const routerCustomer = require('./customer')
+const errorHandler = require('../middlewares/errorHandler')
 
 router.get('/package', travel.getPackage)
 router.post('/register', authController.register)
@@ -21,7 +21,7 @@ router.get('/history', travel.getOrderHistory)
 router.delete('/package/:id', authorization, travel.deletePackage)
 router.patch('/package/:id', authorization, travel.updatePackage)
 
-// router.use(errorHandler)
+router.use(errorHandler)
 
 
 module.exports = router

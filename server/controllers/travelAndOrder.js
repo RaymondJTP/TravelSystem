@@ -5,7 +5,7 @@ class Controller{
     static async postPackage(req,res,next){
         try {
             const {Name, Description, Image} = req.body
-            console.log(Image);
+
             const Price = +req.body.Price
 
             const result = await Package.create({
@@ -14,7 +14,7 @@ class Controller{
 
             res.status(201).json(result)
         } catch (err) {
-            console.log(err);
+            next(err)
         }
     }
 

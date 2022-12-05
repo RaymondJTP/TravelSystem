@@ -12,11 +12,11 @@ const uploadImage = async (req,res,next) => {
             if(!req.file.mimetype.includes('image')){
                 throw ({name: 'wrongImageType'})
             }
-            console.log(15);
+
             const form = new FormData();
             form.append('file', req.file.buffer.toString('base64'));
             form.append('fileName', req.file.originalname);
-            console.log(form);
+
             let formattedPrivateKey = Buffer.from(privateKey).toString('base64')
             let formattedData = form.getHeaders()
     
@@ -31,11 +31,11 @@ const uploadImage = async (req,res,next) => {
             })
             .then(response => {
                 req.body.Image = response.data.url
-                console.log(req.body.Image, "MASUK IMG");
+                
                 next()
             })
             .catch(err => {
-                console.log(err);
+
                 next(err)
             })
         }

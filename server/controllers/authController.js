@@ -7,8 +7,25 @@ class Controller {
     static async register(req,res,next){
         try {
             const {Name,Email,Phone,Address,Password} = req.body
+            if(!Email || !Password){
+                throw ({name : 'email/password' , message : 'Email cant be empty'})
+            }
+
+            if(! Password) {
+                throw ({name : 'email/password', message : 'Password cant be empty'})
+            }
             const TypeUser = +req.body.TypeUser
-            console.log(req.body);
+            
+            const customer = await Customer.findOne({
+                where : {
+                    Email
+                }
+            })
+
+            if(customer){
+                throw ({name : 'invalid', message : 'Email is already existed, please login'})
+            }
+
             const result = await Customer.create({
                 Name,Email,Phone,Address,Password,TypeUser
             })
@@ -27,13 +44,13 @@ class Controller {
                 where : {Email}
             })
             if(!customer){
-                throw ({name : 'loginFail'})
+                throw ({name : 'Invalid'})
             }
 
             let isValidPassword = comparePassword(Password, customer.Password)
 
             if(!isValidPassword){
-                throw ({name : 'loginFail'})
+                throw ({name : 'Invalid'})
             }
 
             let tokenPayLoad = {id : customer.CustomerId, email : customer.Email}
@@ -41,7 +58,7 @@ class Controller {
 
             res.status(200).json({message : 'Success Login', access_token})
         } catch (err) {
-            console.log(err);
+            next(err)
         }
     }
 }
