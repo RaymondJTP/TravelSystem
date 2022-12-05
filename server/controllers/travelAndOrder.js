@@ -5,6 +5,7 @@ class Controller{
     static async postPackage(req,res,next){
         try {
             const {Name, Description, Image} = req.body
+            console.log(Image);
             const Price = +req.body.Price
 
             const result = await Package.create({
